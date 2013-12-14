@@ -68,7 +68,7 @@ module RR
         self.rows = connection.select_all query
         self.current_row_index = 0
       end
-      self.current_row_index < self.rows.size
+      self.current_row_index < self.rows.to_ary.size
     end
 
     # Returns the row as a column => value hash and moves the cursor to the next row.
@@ -77,7 +77,7 @@ module RR
       self.last_row = self.rows[self.current_row_index]
       self.current_row_index += 1
 
-      if self.current_row_index == self.rows.size
+      if self.current_row_index == self.rows.to_ary.size
         self.rows = nil
       end
 

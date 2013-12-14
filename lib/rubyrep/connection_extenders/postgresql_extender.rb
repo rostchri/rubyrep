@@ -138,7 +138,13 @@ module RR
         
         # Change a Postgres Array of attribute numbers
         # (returned in String form, e. g.: "{1,2}") into an array of Integers
-        column_ids = column_parray.sub(/^\{(.*)\}$/,'\1').split(',').map {|a| a.to_i}
+        if column_parray.is_a? String
+            column_ids = column_parray.sub(/^\{(.*)\}$/,'\1').split(',').map {|a| a.to_i}
+        elsif column_parray.is_a? Array
+            column_ids = column_parray
+        else
+            raise Exception.new("oops")
+        end
 
         columns = {}
         rows = self.select_all(<<-end_sql)
